@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CareerCompass - Discover Your Tech Career Path</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* Reset & basics */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f9fafb;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    /* Layout containers */
+    header,
+    footer {
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    main {
+      flex-grow: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 16px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+    }
+
+    /* Header */
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #059669; /* green-600 */
+      gap: 8px;
+    }
+    .logo .material-icons {
+      font-size: 1.8rem;
+    }
+
+    /* Nav */
+    nav {
+      display: flex;
+      gap: 24px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav a {
+      color: #334155; /* gray-700 */
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover,
+    nav a:focus-visible {
+      background-color: #d1fae5; /* green-100 */
+      outline: none;
+    }
+
+    /* Mobile Hamburger toggle */
+    .mobile-toggle {
+      display: none;
+      border: none;
+      background: none;
+      font-size: 1.8rem;
+      color: #059669;
+      cursor: pointer;
+    }
+
+    /* Mobile nav menu */
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: white;
+      position: absolute;
+      top: 60px;
+      right: 16px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 2000;
+    }
+    .mobile-nav a {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+    .mobile-nav.show {
+      display: flex;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: #f3f4f6;
+      width: 100%;
+      max-width: 700px;
+      border-radius: 16px;
+      padding: 48px 32px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgb(5 150 105 / 0.1);
+    }
+    .hero h1 {
+      font-weight: 700;
+      font-size: 1.75rem;
+      color: #111827; /* gray-900 */
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+    .hero p {
+      font-weight: 400;
+      font-size: 1rem;
+      color: #475569; /* gray-600 */
+      margin-bottom: 32px;
+    }
+    .btn-start {
+      background-color: #059669; /* green-600 */
+      color: white;
+      font-weight: 600;
+      font-size: 1.125rem;
+      padding: 12px 48px;
+      border-radius: 50px;
+      box-shadow: 0 6px 12px rgb(5 150 105 / 0.6);
+      border: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-start:hover,
+    .btn-start:focus-visible {
+      background-color: #047857; /* green-700 */
+      box-shadow: 0 8px 16px rgb(4 120 87 / 0.8);
+      outline: none;
+    }
+
+    /* How it works section */
+    .how-it-works {
+      background-color: #c7d2fe; /* light purple/lavender */
+      border-radius: 16px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-around;
+      gap: 24px;
+      flex-wrap: nowrap;
+    }
+    .step {
+      flex: 1 1 0;
+      min-width: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      color: #1e293b; /* gray-800 */
+    }
+    .step-circle {
+      background-color: #2563eb; /* blue-600 */
+      color: white;
+      font-weight: 700;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      user-select: none;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+    }
+    .step-text {
+      font-weight: 500;
+      text-align: center;
+      font-size: 1rem;
+      max-width: 140px;
+      user-select: none;
+    }
+
+    /* Responsive Breakpoints */
+
+    /* Mobile (320 - 767px) */
+    @media (max-width: 767px) {
+      .header-container {
+        justify-content: space-between;
+      }
+      nav.desktop-menu {
+        display: none;
+      }
+      .mobile-toggle {
+        display: block;
+      }
+      .hero {
+        padding: 32px 24px;
+        max-width: 100%;
+      }
+      .how-it-works {
+        flex-direction: column;
+        gap: 40px;
+        max-width: 100%;
+      }
+      .step {
+        min-width: auto;
+      }
+      main {
+        padding: 24px 16px 64px;
+      }
+    }
+
+    /* Desktop (768 - 1439px) */
+    @media (min-width: 768px) and (max-width: 1439px) {
+      nav.mobile-menu {
+        display: none;
+      }
+      nav.desktop-menu {
+        display: flex;
+      }
+      main {
+        padding: 48px 32px 80px;
+      }
+      .hero {
+        max-width: 700px;
+      }
+      .how-it-works {
+        max-width: 900px;
+      }
+    }
+
+    /* Large Desktop 1440px+ */
+    @media (min-width: 1440px) {
+      main {
+        max-width: 1200px;
+        padding: 64px 48px 96px;
+      }
+      .hero {
+        max-width: 700px;
+      }
+      .how-it-works {
+        max-width: 900px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header role="banner" aria-label="Primary header navigation">
+    <div class="header-container">
+      <a href="#" class="logo" aria-label="CareerCompass homepage">
+        <span class="material-icons" aria-hidden="true">explore</span>
+        CareerCompass
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="desktop-menu" aria-label="Primary navigation">
+        <a href="#" role="link" tabindex="0">About</a>
+        <a href="#" role="link" tabindex="0">Login</a>
+      </nav>
+
+      <!-- Mobile Hamburger Toggle -->
+      <button
+        class="mobile-toggle"
+        aria-label="Toggle mobile menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        id="mobile-menu-toggle"
+      >
+        <span class="material-icons" aria-hidden="true">menu</span>
+      </button>
+
+      <!-- Mobile Navigation -->
+      <nav class="mobile-nav" id="mobile-menu" aria-label="Mobile navigation" hidden>
+        <a href="#" role="link" tabindex="-1">About</a>
+        <a href="#" role="link" tabindex="-1">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-label="Introduction and start quiz">
+      <h1>Discover your career path based on your skills and interest and navigate through the tech world</h1>
+      <p>Take the quiz to find your perfect tech domain!</p>
+      <button class="btn-start" aria-label="Start the career quiz">Start</button>
+    </section>
+
+    <section class="how-it-works" aria-label="How CareerCompass works in three steps">
+      <div class="step">
+        <div class="step-circle" aria-hidden="true">1</div>
+        <div class="step-text">Take the quiz</div>
+      </div>
+      <div class="step">
+        <div class="step-circle" aria-hidden="true">2</div>
+        <div class="step-text">Find your path</div>
+      </div>
+      <div class="step">
+        <div class="step-circle" aria-hidden="true">3</div>
+        <div class="step-text">Upskill and upgrade!</div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo" aria-label="Primary footer">
+    <div class="header-container" style="justify-content: center; font-size: 0.9rem; color: #64748b;">
+      &copy; 2024 CareerCompass. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileToggle.addEventListener('click', () => {
+      const expanded = mobileToggle.getAttribute('aria-expanded') === 'true' || false;
+      mobileToggle.setAttribute('aria-expanded', String(!expanded));
+      if (mobileMenu.hasAttribute('hidden')) {
+        mobileMenu.removeAttribute('hidden');
+        // Make links focusable
+        mobileMenu.querySelectorAll('a').forEach(a => a.tabIndex = 0);
+      } else {
+        mobileMenu.setAttribute('hidden', '');
+        // Make links unfocusable
+        mobileMenu.querySelectorAll('a').forEach(a => a.tabIndex = -1);
+      }
+    });
+
+    // Close menu if clicking outside (optional for UX)
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+        if (!mobileMenu.hasAttribute('hidden')) {
+          mobileMenu.setAttribute('hidden', '');
+          mobileToggle.setAttribute('aria-expanded', 'false');
+          mobileMenu.querySelectorAll('a').forEach(a => a.tabIndex = -1);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
