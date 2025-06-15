@@ -23,10 +23,14 @@ def result():
 # Handle Quiz Submission
 @app.route('/submit-quiz', methods=['POST'])
 def submit_quiz():
-    data = request.json
-    answers = data.get("answers", [])
+    data = request.get_json()
 
-    # Basic rule-based logic (replace with ML later)
+    if not data or "answers" not in data:
+        return jsonify({"error": "Invalid data"}), 400
+
+    answers = data["answers"]
+
+    # Rule-based logic (can be replaced by ML later)
     if "design" in answers:
         result = "UI/UX Designer"
     elif "code" in answers:
