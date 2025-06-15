@@ -1,20 +1,30 @@
-from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
+from flask import Flask, render_template
 
-# Initialize Flask app and enable CORS
-app = Flask(__name__, template_folder='templates', static_folder='static')
-CORS(app)
+app = Flask(__name__)
 
-# Landing Page
-@app.route('/')
-def home():
-    return render_template('index.html')
+@app.route('/resources')
+def resources():
+    courses = [
+        {
+            "name": "UI/UX Design",
+            "description": "Basics of designing user interfaces",
+            "topics": ["Figma Basics", "Design Principles", "Wireframing"],
+            "price": "Free"
+        },
+        {
+            "name": "Frontend Development",
+            "description": "HTML, CSS, and JS fundamentals",
+            "topics": ["HTML Tags", "Flexbox/Grid", "JavaScript Basics"],
+            "price": "Free"
+        },
+        {
+            "name": "Testing Basics",
+            "description": "QA fundamentals for software testing",
+            "topics": ["Manual Testing", "Bug Reporting", "Test Cases"],
+            "price": "Free"
+        }
+    ]
+    return render_template("resources.html", courses=courses)
 
-# Signup Page
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
-# Run the Flask app
 if __name__ == '__main__':
     app.run(debug=True)
