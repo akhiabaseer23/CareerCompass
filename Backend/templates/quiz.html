@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Career Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="bg-white text-gray-900 p-8 rounded-lg shadow-lg w-full max-w-lg">
+    <h2 id="questionNumber" class="text-green-600 font-bold text-center mb-2">1</h2>
+    <h1 id="questionText" class="text-xl font-semibold text-center mb-6">Loading...</h1>
+    
+    <div id="optionsContainer" class="flex flex-col gap-3 mb-6"></div>
+
+    <div class="flex justify-end gap-4">
+      <button onclick="nextQuestion()" id="nextBtn" class="bg-purple-300 hover:bg-purple-400 text-gray-900 font-semibold px-5 py-2 rounded flex items-center gap-1">
+        <span>Next</span> ➜
+      </button>
+
+      <button onclick="submitAnswers()" id="finishBtn" class="bg-purple-300 hover:bg-purple-400 text-gray-900 font-semibold px-5 py-2 rounded hidden">
+        Finish Quiz
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is your preferred field of work?",
+        options: ["Programming", "Design", "Testing"]
+      },
+      {
+        question: "How do you prefer working?",
+        options: ["Team", "Solo", "Flexible"]
+      },
+      {
+        question: "What is your strongest skill?",
+        options: ["Problem Solving", "Creativity", "Detail-Oriented"]
+      },
+      {
+        question: "Which environment excites you more?",
+        options: ["Startup", "Corporate", "Freelance"]
+      },
+      {
+        question: "Which tools are you familiar with?",
+        options: ["VS Code", "Figma", "Postman"]
+      },
+      {
+        question: "Which project would you enjoy more?",
+        options: ["Building a website", "Designing a logo", "Finding app bugs"]
+      },
+      {
+        question: "Select your coding level",
+        options: ["Beginner", "Intermediate", "Advanced"]
+      }
+    ];
+
+    let currentQuestion = 0;
+    let userAnswers = [];
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("questionNumber").innerText = currentQuestion + 1;
+      document.getElementById("questionText").innerText = q.question;
+
+      const optionsContainer = document.getElementById("optionsContainer");
+      optionsContainer.innerHTML = "";
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.className = "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded";
+        btn.onclick = () => {
+          userAnswers[currentQuestion] = option;
+
+          if (currentQuestion === questions.length - 1) {
+            // On last question, do not auto-next
+            highlightSelection(btn);
+            document.getElementById("nextBtn").classList.add("hidden");
+            document.getElementById("finishBtn").classList.remove("hidden");
+          } else {
+            nextQuestion();
+          }
+        };
+        optionsContainer.appendChild(btn);
+      });
+
+      // Show/hide buttons
+      if (currentQuestion === questions.length - 1) {
+        document.getElementById("nextBtn").classList.add("hidden");
+        document.getElementById("finishBtn").classList.remove("hidden");
+      } else {
+        document.getElementById("nextBtn").classList.remove("hidden");
+        document.getElementById("finishBtn").classList.add("hidden");
+      }
+    }
+
+    function highlightSelection(button) {
+      // Deselect previous
+      const allButtons = document.querySelectorAll("#optionsContainer button");
+      allButtons.forEach(btn => btn.classList.remove("ring-4", "ring-purple-300"));
+      // Highlight selected
+      button.classList.add("ring-4", "ring-purple-300");
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      }
+    }
+
+    function submitAnswers() {
+      fetch("/submit_quiz", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers: userAnswers })
+      }).then(res => {
+        if (res.ok) {
+          window.location.href = "/result";
+        }
+      });
+    }
+
+    // Start with first question
+    loadQuestion();
+  </script>
+</body>
+</html>

@@ -10,35 +10,10 @@ CORS(app)
 def home():
     return render_template('index.html')
 
-# Quiz Page
-@app.route('/quiz')
-def quiz():
-    return render_template('quiz.html')
-
-# Result Page
-@app.route('/result')
-def result():
-    return render_template('result.html')
-
-# Handle Quiz Submission
-@app.route('/submit-quiz', methods=['POST'])
-def submit_quiz():
-    data = request.get_json()
-
-    if not data or "answers" not in data:
-        return jsonify({"error": "Invalid data"}), 400
-
-    answers = data["answers"]
-
-    # Rule-based logic (can be replaced by ML later)
-    if "design" in answers:
-        result = "UI/UX Designer"
-    elif "code" in answers:
-        result = "Software Engineer"
-    else:
-        result = "Tech Generalist"
-
-    return jsonify({"career_match": result})
+# Signup Page
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
 
 # Run the Flask app
 if __name__ == '__main__':
